@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Security Dashboard</title><link rel="stylesheet" href="/style.css"></head>
+<body><header><div><strong>🛡️ Secure Server Guard</strong><span class="muted"> / Defensive Security Dashboard</span></div><form method="post" action="/logout"><button class="secondary">Logout</button></form></header>
+<main class="container"><div class="topline"><div><h1>Security Overview</h1><p class="muted">로그인 사용자: <strong><%= user.username %></strong></p></div><span class="badge ok">MONITORING</span></div>
+<section class="stats">
+  <article><span>로그인 성공</span><strong><%= stats.loginSuccess %></strong></article>
+  <article><span>로그인 실패</span><strong><%= stats.loginFailure %></strong></article>
+  <article><span>차단 요청</span><strong><%= stats.blockedRequest %></strong></article>
+  <article><span>Rate Limit</span><strong><%= stats.rateLimited %></strong></article>
+</section>
+<section class="panel"><h2>현재 차단된 클라이언트</h2>
+<% if (!blocks.length) { %><p class="muted">현재 활성 차단이 없습니다.</p><% } else { %><div class="table-wrap"><table><thead><tr><th>IP Hash</th><th>차단 종료</th><th>사유</th></tr></thead><tbody><% blocks.forEach(b => { %><tr><td><code><%= b.ip_display %></code></td><td><%= b.blocked_until %></td><td><%= b.reason %></td></tr><% }) %></tbody></table></div><% } %>
+</section>
+<section class="panel"><h2>최근 보안 이벤트</h2><div class="table-wrap"><table><thead><tr><th>시간</th><th>심각도</th><th>이벤트</th><th>IP Hash</th><th>계정</th><th>상세</th></tr></thead><tbody>
+<% logs.forEach(log => { %><tr><td><%= log.created_at %></td><td><span class="sev <%= log.severity.toLowerCase() %>"><%= log.severity %></span></td><td><%= log.event_type %></td><td><code><%= log.ip_display %></code></td><td><%= log.username || '-' %></td><td><%= log.detail || '-' %></td></tr><% }) %>
+</tbody></table></div></section>
+<section class="panel"><h2>적용된 방어 기법</h2><div class="features"><span>Helmet Security Headers</span><span>bcrypt Password Hashing</span><span>JWT HttpOnly Cookie</span><span>Rate Limiting</span><span>Brute-force Blocking</span><span>Prepared SQL</span><span>Input Validation</span><span>IP Privacy Hashing</span><span>Audit Logging</span></div></section>
+</main></body></html>

@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Secure Server Guard - Login</title><link rel="stylesheet" href="/style.css"></head>
+<body class="login-page"><main class="login-card">
+  <div class="shield">🛡️</div><h1>Secure Server Guard</h1><p class="muted">보안 모니터링 대시보드</p>
+  <% if (expired) { %><div class="notice">로그인 시간이 만료되었습니다.</div><% } %>
+  <% if (error) { %><div class="error"><%= error %></div><% } %>
+  <form method="post" action="/login" autocomplete="off">
+    <label>Username<input name="username" maxlength="30" required></label>
+    <label>Password<input type="password" name="password" minlength="8" maxlength="128" required></label>
+    <button type="submit">보안 대시보드 로그인</button>
+  </form>
+  <p class="small">비밀번호는 bcrypt로 해싱되며 인증 토큰은 HttpOnly 쿠키로 저장됩니다.</p>
+</main></body></html>
